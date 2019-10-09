@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -45,12 +45,34 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+
+    protected static function num_adherent(){
+    $result = User::select('*')
+                ->where("t_e_adherent_adh.adh_numadherent", '>=', "t_e_adherent_adh.adh_numadherent")
+                ->orderby("t_e_adherent_adh.adh_numadherent","desc");
+
+        foreach ($result as $key => $value) {
+            foreach ($result[$key] as $key => $value) {
+                if ($key === "adh_numadherent") {
+                    return $value;
+                }
+            }
+        }
+    }
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'adh_numadherent' => 'string',
+            'adh_datefinadhesion' => 'string',
+            'adh_mel' => 'required|string|email|max:255|unique:t_e_adherent_adh',
+            'adh_motpasse' => 'required|string|min:3|confirmed',
+            'adh_pseudo' => 'required|string|max:255',
+            'adh_civilite' => 'required|string',
+            'adh_nom' => 'required|string|max:255',
+            'adh_prenom' => 'required|string|max:255',
+            'adh_telfixe' => 'string|max:10',
+            'adh_telportable' => 'string|max:10',
         ]);
     }
 
@@ -60,12 +82,23 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'adh_numadherent' => $data['adh_numadherent'],
+            'adh_datefinadhesion' => date("Y-m-d"),
+            'adh_mel' => $data['adh_mel'],
+            'adh_motpasse' => bcrypt($data['adh_motpasse']),
+            'adh_pseudo' => $data['adh_pseudo'],
+            'adh_civilite' => $data['adh_civilite'],
+            'adh_nom' => $data['adh_nom'],
+            'adh_prenom' => $data['adh_prenom'],
+            'adh_telfixe' => $data['adh_telfixe'],
+            'adh_telportable' => $data['adh_telportable'],
         ]);
     }
+
+
+
 }

@@ -56,10 +56,10 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'fnac1c'),
-            'username' => env('DB_USERNAME', 'fnac1c'),
+            'database' => env('DB_DATABASE', 'fnac5c'),
+            'username' => env('DB_USERNAME', 'fnac5c'),
             'password' => env('DB_PASSWORD', 'nAFsr1'),
             'charset' => 'utf8',
             'prefix' => '',
